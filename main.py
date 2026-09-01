@@ -24,3 +24,15 @@ price_list = [i.split("+")[0].split("/")[0] for i in raw_price_list]
 # scrape address data
 address_list = [i.text.split("\n")[1].split("                                  ")[1] for i in soup.find_all("address")]
 print(address_list)
+
+# scrape property links
+a_list = soup.find_all("a")
+link_list = []
+for a in a_list:
+    try:
+        if a["data-test"] == "property-card-link":
+            link_list.append(a["href"])
+    except KeyError:
+        pass
+
+print(link_list)
