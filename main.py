@@ -10,13 +10,17 @@ soup = BeautifulSoup(website_html, "html.parser")
 # find all price data
 span_list = soup.find_all("span")
 # price_list = [i.text for i in span_list if i["data-test"] == "property-card-price"]
-price_list = []
+raw_price_list = []
 for i in span_list:
     try:
         if i["data-test"] == "property-card-price":
-            price_list.append(i.text)
+            raw_price_list.append(i.text)
     except KeyError:
         pass
 
-print(price_list)
 
+price_list = [i.split("+")[0].split("/")[0] for i in raw_price_list]
+
+# scrape address data
+address_list = [i.text.split("\n")[1].split("                                  ")[1] for i in soup.find_all("address")]
+print(address_list)
